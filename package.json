@@ -1,0 +1,22 @@
+{
+  "name": "pluggy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/cli.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node src/cli.js --help",
+    "dev": "node --watch src/cli.js",
+    "cli": "node src/cli.js",
+    "dev:cli": "node --watch src/cli.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "dotenv": "^17.4.0"
+  }
+}
