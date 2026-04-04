@@ -1,7 +1,7 @@
 {
-  "name": "open-finance-service",
+  "name": "open-finance-sync",
   "version": "1.0.0",
-  "description": "Scheduled Pluggy Open Finance sync to SQLite (Bun)",
+  "description": "Open Finance Sync — Pluggy data to SQLite (Bun)",
   "scripts": {
     "sync": "bun run ./sync.js"
   },
