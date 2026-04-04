@@ -25,8 +25,8 @@ function exitErr(err) {
 
 const program = new Command()
 program
-  .name('pluggy')
-  .description('CLI to query Pluggy API (items, accounts, cards, transactions)')
+  .name('open-finance-service')
+  .description('Open Finance Service — CLI for Pluggy API (items, accounts, cards, transactions)')
 
 program
   .command('items')

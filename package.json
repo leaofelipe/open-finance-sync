@@ -1,7 +1,7 @@
 {
-  "name": "pluggy",
+  "name": "open-finance-service",
   "version": "1.0.0",
-  "description": "",
+  "description": "Open Finance Service — CLI client for the Pluggy Open Finance API",
   "main": "src/cli.js",
   "engines": {
     "node": ">=18"
