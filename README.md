@@ -1,6 +1,6 @@
 # Open Finance Sync
 
-[Bun](https://bun.sh/)
+[![Bun](https://img.shields.io/badge/bun-%3E%3D1.1-000000?logo=bun&logoColor=white)](https://bun.sh/)
 
 **Open Finance Sync** reads your Pluggy connection data and writes it to a local **SQLite** database. Each run performs one sync; you invoke it however fits your setup.
 
