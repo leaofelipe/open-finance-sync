@@ -7,6 +7,8 @@ const {
   fetchBankAccounts,
   fetchCreditCards,
   fetchItems,
+  getAccount,
+  getAccounts,
   getItem,
   getTransactions,
 } = require('./services/pluggy-service')
@@ -44,6 +46,34 @@ program
   .action(async (opts) => {
     try {
       printJson(await getItem(opts.id))
+    } catch (err) {
+      exitErr(err)
+    }
+  })
+
+const accountsCmd = program
+  .command('accounts')
+  .description('List accounts by item or fetch one by id')
+
+accountsCmd
+  .command('list')
+  .description('List accounts for a Pluggy item')
+  .requiredOption('--item-id <uuid>', 'Pluggy item id')
+  .action(async (opts) => {
+    try {
+      printJson(await getAccounts(opts.itemId))
+    } catch (err) {
+      exitErr(err)
+    }
+  })
+
+accountsCmd
+  .command('get')
+  .description('Fetch a single account by id')
+  .requiredOption('--id <uuid>', 'Pluggy account id')
+  .action(async (opts) => {
+    try {
+      printJson(await getAccount(opts.id))
     } catch (err) {
       exitErr(err)
     }

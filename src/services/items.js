@@ -10,7 +10,7 @@ function parseItem(raw) {
     executionStatus: raw.executionStatus,
     lastUpdatedAt: raw.lastUpdatedAt,
     nextAutoSyncAt: raw.nextAutoSyncAt,
-    autoSyncDisabledAt: raw.autoSyncDisabledAt,
+    autoSyncDisabledAt: raw.autoSyncDisabledAt
   }
 }
 

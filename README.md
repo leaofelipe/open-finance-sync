@@ -32,6 +32,8 @@ With **npm**, use `--` once so everything after it is passed to the CLI (needed 
 
 ```bash
 npm run cli -- --help
+npm run cli -- accounts list --item-id <uuid>
+npm run cli -- accounts get --id <uuid>
 npm run cli -- bank-accounts
 npm run cli -- credit-cards
 npm run cli -- transactions --account-id <uuid> --from 2026-03-01 --to 2026-03-31
@@ -40,6 +42,8 @@ npm run cli -- transactions --account-id <uuid> --from 2026-03-01 --to 2026-03-3
 With **node** directly you can omit npm’s `--`:
 
 ```bash
+node src/cli.js accounts list --item-id <uuid>
+node src/cli.js accounts get --id <uuid>
 node src/cli.js bank-accounts
 ```
 
