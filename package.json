@@ -1,22 +1,14 @@
 {
   "name": "open-finance-service",
   "version": "1.0.0",
-  "description": "Open Finance Service — CLI client for the Pluggy Open Finance API",
-  "main": "src/cli.js",
-  "engines": {
-    "node": ">=18"
-  },
+  "description": "Scheduled Pluggy Open Finance sync to SQLite (Bun)",
   "scripts": {
-    "start": "node src/cli.js --help",
-    "dev": "node --watch src/cli.js",
-    "cli": "node src/cli.js",
-    "dev:cli": "node --watch src/cli.js"
+    "sync": "bun run ./sync.js"
+  },
+  "engines": {
+    "bun": ">=1.1.0"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "commander": "^12.1.0",
-    "dotenv": "^17.4.0"
-  }
+  "author": "Felipe Leão <felipe@felipeleao.com>",
+  "license": "MIT"
 }
