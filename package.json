@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Open Finance Sync — Pluggy data to SQLite (Bun)",
   "scripts": {
-    "sync": "bun run ./sync.js"
+    "sync": "bun run ./src/sync.js"
   },
   "engines": {
     "bun": ">=1.1.0"

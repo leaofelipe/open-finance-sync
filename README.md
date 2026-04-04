@@ -16,9 +16,9 @@ API reference: [Pluggy API Reference](https://docs.pluggy.ai/reference). Overvie
 
 ```mermaid
 graph LR
-  sync["sync.js"]
-  pluggy["services/Pluggy"]
-  dbsvc["services/Database"]
+  sync["src/sync.js"]
+  pluggy["src/services/Pluggy"]
+  dbsvc["src/services/Database"]
   db[(SQLite)]
   sync --> pluggy
   sync --> dbsvc
