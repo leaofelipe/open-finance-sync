@@ -15,10 +15,10 @@ API reference: [Pluggy API Reference](https://docs.pluggy.ai/reference). Overvie
 ## Architecture
 
 ```mermaid
-flowchart LR
-  sync[sync.js]
-  pluggy[services/Pluggy]
-  dbsvc[services/Database]
+graph LR
+  sync["sync.js"]
+  pluggy["services/Pluggy"]
+  dbsvc["services/Database"]
   db[(SQLite)]
   sync --> pluggy
   sync --> dbsvc
