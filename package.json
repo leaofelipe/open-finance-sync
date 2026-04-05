@@ -2,7 +2,9 @@
   "name": "open-finance-sync",
   "version": "1.0.0",
   "description": "Pluggy integration library for Bun",
-  "scripts": {},
+  "scripts": {
+    "sync": "bun src/sync.js"
+  },
   "engines": {
     "bun": ">=1.1.0"
   },
