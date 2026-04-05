@@ -20,4 +20,15 @@ async function saveJSON(filename, data) {
   console.log(`[Data] Saved JSON: ${filePath}`)
 }
 
-module.exports = { saveJSON }
+async function readJSON(filename) {
+  const safeName = path.basename(filename)
+  const filePath = path.join(getDataDir(), safeName)
+  try {
+    const content = await fs.readFile(filePath, 'utf8')
+    return JSON.parse(content)
+  } catch {
+    return null
+  }
+}
+
+module.exports = { saveJSON, readJSON }

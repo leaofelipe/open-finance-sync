@@ -1,7 +1,7 @@
 const { fetchItems } = require('./services/Pluggy/items');
 const { getAccounts } = require('./services/Pluggy/accounts');
 const { fetchTransactionsByAccountId } = require('./services/Pluggy/transactions');
-const { saveJSON } = require('./services/Data');
+const { saveJSON, readJSON } = require('./services/Data');
 
 function getLast15DaysFrom() {
   const date = new Date();
@@ -16,7 +16,24 @@ async function withTransactions(account) {
   return { ...account, transactions: results };
 }
 
+async function isCacheValid() {
+  const cached = await readJSON('sync_status.json');
+  if (!cached || cached.length === 0) return false;
+
+  const maxNextSync = Math.max(
+    ...cached.map((item) => new Date(item.nextAutoSyncAt).getTime())
+  );
+  return Date.now() <= maxNextSync;
+}
+
 async function sync() {
+  console.time('[Sync] Done');
+
+  if (await isCacheValid()) {
+    console.log('[Sync] Cache is valid, skipping requests.');
+    console.timeEnd('[Sync] Done');
+    return;
+  }
   const items = await fetchItems();
   await saveJSON('sync_status.json', items);
   const allAccounts = (
@@ -32,6 +49,7 @@ async function sync() {
     allAccounts.filter((a) => a.type === 'CREDIT').map(withTransactions)
   );
   await saveJSON('credit_cards.json', creditCards);
+  console.timeEnd('[Sync] Done');
 }
 
 if (require.main === module) {
