@@ -1,3 +1,4 @@
+require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
 const { fetchItems } = require('./services/Pluggy/items');
 const { getAccounts } = require('./services/Pluggy/accounts');
 const { fetchTransactionsByAccountId } = require('./services/Pluggy/transactions');

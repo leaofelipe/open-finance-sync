@@ -2,7 +2,7 @@ const fs = require('fs/promises')
 const path = require('path')
 
 function getDataDir() {
-  return path.resolve(process.cwd(), process.env.DATA_FOLDER ?? 'data')
+  return path.resolve(__dirname, '../../..', process.env.DATA_FOLDER ?? 'data')
 }
 
 async function ensureDataDir() {
