@@ -1,6 +1,7 @@
 const { fetchItems } = require('./services/Pluggy/items');
 const { getAccounts } = require('./services/Pluggy/accounts');
 const { fetchTransactionsByAccountId } = require('./services/Pluggy/transactions');
+const { saveJSON } = require('./services/Data');
 
 function getLast15DaysFrom() {
   const date = new Date();
@@ -17,6 +18,7 @@ async function withTransactions(account) {
 
 async function sync() {
   const items = await fetchItems();
+  await saveJSON('sync_status.json', items);
   const allAccounts = (
     await Promise.all(items.map((item) => getAccounts(item.id)))
   ).flat();
@@ -24,11 +26,12 @@ async function sync() {
   const accounts = await Promise.all(
     allAccounts.filter((a) => a.type === 'BANK').map(withTransactions)
   );
+  await saveJSON('accounts.json', accounts);
+
   const creditCards = await Promise.all(
     allAccounts.filter((a) => a.type === 'CREDIT').map(withTransactions)
   );
-
-  console.log({ items, accounts, creditCards });
+  await saveJSON('credit_cards.json', creditCards);
 }
 
 if (require.main === module) {
