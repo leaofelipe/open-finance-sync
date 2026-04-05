@@ -11,5 +11,8 @@
   },
   "keywords": [],
   "author": "Felipe Leão <felipe@felipeleao.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^17.4.1"
+  }
 }
