@@ -1,19 +1,9 @@
 const { pluggyFetch } = require('./pluggy-client');
 
-function parseFinanceCharge(raw) {
-  return {
-    type: raw.type,
-    amount: raw.amount,
-  };
-}
-
 function parseBill(raw) {
   return {
     dueDate: raw.dueDate,
     totalAmount: raw.totalAmount,
-    financeCharges: Array.isArray(raw.financeCharges)
-      ? raw.financeCharges.map(parseFinanceCharge)
-      : [],
   };
 }
 

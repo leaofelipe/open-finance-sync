@@ -87,13 +87,6 @@ function printCreditCardsTable(cards) {
         const billDue = formatDate(bill.dueDate);
         const billTotal = formatCurrency(bill.totalAmount, card.currencyCode);
         console.log(`    Due: ${billDue}  Total: ${billTotal}`);
-
-        if (bill.financeCharges && bill.financeCharges.length > 0) {
-          for (const charge of bill.financeCharges) {
-            const chargeAmount = formatCurrency(charge.amount, card.currencyCode);
-            console.log(`      Charge  ${(charge.type || '').padEnd(40)} ${chargeAmount}`);
-          }
-        }
       }
     }
   }
