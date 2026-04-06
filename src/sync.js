@@ -4,15 +4,29 @@ const { getAccounts } = require('./services/Pluggy/accounts');
 const { fetchTransactionsByAccountId } = require('./services/Pluggy/transactions');
 const { saveJSON, readJSON } = require('./services/Data');
 
-function getLast15DaysFrom() {
-  const date = new Date();
-  date.setDate(date.getDate() - 15);
-  return date.toISOString().split('T')[0];
+const DEFAULT_DAYS_PAST = 15;
+const DEFAULT_DAYS_FUTURE = 0;
+
+function getTransactionDateWindow() {
+  const daysPast = Number.parseInt(process.env.TRANSACTION_DAYS_PAST, 10) || DEFAULT_DAYS_PAST;
+  const daysFuture = Number.parseInt(process.env.TRANSACTION_DAYS_FUTURE, 10) || DEFAULT_DAYS_FUTURE;
+
+  const fromDate = new Date();
+  fromDate.setDate(fromDate.getDate() - daysPast);
+  const from = fromDate.toISOString().split('T')[0];
+
+  const toDate = new Date();
+  toDate.setDate(toDate.getDate() + daysFuture);
+  const to = toDate.toISOString().split('T')[0];
+
+  return { from, to };
 }
 
 async function withTransactions(account) {
+  const { from, to } = getTransactionDateWindow();
   const { results } = await fetchTransactionsByAccountId(account.id, {
-    from: getLast15DaysFrom(),
+    from,
+    to,
   });
   return { ...account, transactions: results };
 }

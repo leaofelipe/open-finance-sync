@@ -36,6 +36,8 @@ Then edit `.env` with your credentials:
 | `PLUGGY_CLIENT_SECRET` | Yes | Pluggy API client secret |
 | `ITEM_IDS` | Yes | Comma-separated list of Pluggy item IDs to sync |
 | `DATA_FOLDER` | No | Directory to store cached data (defaults to `data/`) |
+| `TRANSACTION_DAYS_PAST` | No | Days before today to include in transactions (defaults to `15`) |
+| `TRANSACTION_DAYS_FUTURE` | No | Days after today to include in transactions (defaults to `0`) |
 
 Example:
 
@@ -54,7 +56,7 @@ DATA_FOLDER=data
 bun run sync
 ```
 
-Fetches items, bank accounts, and credit cards with the last 15 days of transactions from the Pluggy API. Data is saved to the configured `DATA_FOLDER` directory.
+Fetches items, bank accounts, and credit cards with transactions within the configured date window from the Pluggy API. By default, fetches up to the last 15 days of transactions and no future transactions. Data is saved to the configured `DATA_FOLDER` directory.
 
 **Smart caching:** Subsequent runs skip API calls if the cache is still valid (based on Pluggy's `nextAutoSyncAt` timestamps).
 
