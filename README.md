@@ -86,8 +86,14 @@ bun run cli <command> [flags]
 #### Examples
 
 ```bash
+# Alternatively, run the CLI directly
+bun src/cli.js <command> [flags]
+
 # View all bank accounts as JSON
 bun run cli accounts
+
+# View accounts as JSON including up to 10 recent transactions
+bun run cli accounts --transactions
 
 # View accounts in a formatted table
 bun run cli accounts --table
@@ -97,6 +103,9 @@ bun run cli accounts --table --transactions
 
 # View credit cards as JSON
 bun run cli credit-cards
+
+# View credit cards as JSON including up to 10 recent transactions
+bun run cli credit-cards --transactions
 
 # View credit cards with transactions in table format
 bun run cli credit-cards --table --transactions
