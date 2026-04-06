@@ -56,9 +56,17 @@ DATA_FOLDER=data
 bun run sync
 ```
 
+To always hit the API even when `sync_status.json` says the cache is still valid:
+
+```bash
+bun src/sync.js --force
+# or, via the npm/bun script (pass arguments after --):
+bun run sync -- --force
+```
+
 Fetches items, bank accounts, and credit cards with transactions within the configured date window from the Pluggy API. By default, fetches up to the last 15 days of transactions and no future transactions. Data is saved to the configured `DATA_FOLDER` directory.
 
-**Smart caching:** Subsequent runs skip API calls if the cache is still valid (based on Pluggy's `nextAutoSyncAt` timestamps).
+**Smart caching:** Subsequent runs skip API calls if the cache is still valid (based on Pluggy's `nextAutoSyncAt` timestamps). Use `--force` to bypass that check.
 
 Output files:
 - `sync_status.json` — Item metadata and sync status
@@ -83,7 +91,7 @@ bun run cli <command> [flags]
 | Flag | Description |
 |------|-------------|
 | `--table` | Format output as a readable table (default: JSON) |
-| `--transactions` | Include up to 10 recent transactions (default: omitted) |
+| `--transactions` | Include transactions (default: omitted); table mode shows up to 15, JSON mode shows all |
 
 #### Examples
 
@@ -94,7 +102,7 @@ bun src/cli.js <command> [flags]
 # View all bank accounts as JSON
 bun run cli accounts
 
-# View accounts as JSON including up to 10 recent transactions
+# View accounts as JSON including all transactions
 bun run cli accounts --transactions
 
 # View accounts in a formatted table
@@ -106,7 +114,7 @@ bun run cli accounts --table --transactions
 # View credit cards as JSON
 bun run cli credit-cards
 
-# View credit cards as JSON including up to 10 recent transactions
+# View credit cards as JSON including all transactions
 bun run cli credit-cards --transactions
 
 # View credit cards with transactions in table format
@@ -136,9 +144,9 @@ data/                          Local cache (gitignored)
 ## How it works
 
 1. **Sync workflow:**
-   - Check if cached data is still valid by comparing `Date.now()` with `nextAutoSyncAt` from `sync_status.json`
+   - Unless `--force` is passed, check if cached data is still valid by comparing `Date.now()` with `nextAutoSyncAt` from `sync_status.json`
    - If valid, skip API calls
-   - If stale, fetch all items and their associated accounts/transactions
+   - If stale or forced, fetch all items and their associated accounts/transactions
    - Save results to `data/`
 
 2. **CLI workflow:**

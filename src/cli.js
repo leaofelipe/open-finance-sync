@@ -43,7 +43,7 @@ function printAccountsTable(accounts) {
     );
 
     if (hasTransactionsFlag && account.transactions && account.transactions.length > 0) {
-      for (const tx of account.transactions.slice(0, 10)) {
+      for (const tx of account.transactions.slice(0, 15)) {
         const txDate = formatDate(tx.date);
         const txDesc = (tx.description || '').substring(0, 40).padEnd(40);
         const txAmount = formatCurrency(tx.amount, account.currencyCode);
@@ -73,7 +73,7 @@ function printCreditCardsTable(cards) {
     );
 
     if (hasTransactionsFlag && card.transactions && card.transactions.length > 0) {
-      for (const tx of card.transactions.slice(0, 10)) {
+      for (const tx of card.transactions.slice(0, 15)) {
         const txDate = formatDate(tx.date);
         const txDesc = (tx.description || '').substring(0, 40).padEnd(40);
         const txAmount = formatCurrency(tx.amount, card.currencyCode);
