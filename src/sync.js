@@ -16,11 +16,11 @@ function getTransactionDateWindow() {
 
   const fromDate = new Date();
   fromDate.setDate(fromDate.getDate() - daysPast);
-  const from = fromDate.toISOString().split('T')[0];
+  const from = `${fromDate.toISOString().split('T')[0]} 00:00:00`;
 
   const toDate = new Date();
   toDate.setDate(toDate.getDate() + daysFuture);
-  const to = toDate.toISOString().split('T')[0];
+  const to = `${toDate.toISOString().split('T')[0]} 23:59:59`;
 
   return { from, to };
 }
