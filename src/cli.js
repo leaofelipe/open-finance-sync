@@ -19,11 +19,11 @@ function formatDate(dateStr) {
   return date.toLocaleDateString('pt-BR');
 }
 
-function stripTransactions(data) {
+function stripExtras(data) {
   if (!Array.isArray(data)) return data;
   return data.map((item) => {
     const copy = { ...item };
-    delete copy.transactions;
+    if (!hasTransactionsFlag) delete copy.transactions;
     return copy;
   });
 }
@@ -80,6 +80,22 @@ function printCreditCardsTable(cards) {
         console.log(`  ${txDate}  ${txDesc}  ${txAmount}`);
       }
     }
+
+    if (card.bills && card.bills.length > 0) {
+      console.log('  BILLS');
+      for (const bill of card.bills) {
+        const billDue = formatDate(bill.dueDate);
+        const billTotal = formatCurrency(bill.totalAmount, card.currencyCode);
+        console.log(`    Due: ${billDue}  Total: ${billTotal}`);
+
+        if (bill.financeCharges && bill.financeCharges.length > 0) {
+          for (const charge of bill.financeCharges) {
+            const chargeAmount = formatCurrency(charge.amount, card.currencyCode);
+            console.log(`      Charge  ${(charge.type || '').padEnd(40)} ${chargeAmount}`);
+          }
+        }
+      }
+    }
   }
   console.log();
 }
@@ -115,7 +131,7 @@ async function main() {
       printCreditCardsTable(data);
     }
   } else {
-    const output = hasTransactionsFlag ? data : stripTransactions(data);
+    const output = stripExtras(data);
     console.log(JSON.stringify(output, null, 2));
   }
 }

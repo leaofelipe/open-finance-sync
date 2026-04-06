@@ -2,6 +2,7 @@ require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') }
 const { fetchItems } = require('./services/Pluggy/items');
 const { getAccounts } = require('./services/Pluggy/accounts');
 const { fetchTransactionsByAccountId } = require('./services/Pluggy/transactions');
+const { fetchBillsByAccountId } = require('./services/Pluggy/bills');
 const { saveJSON, readJSON } = require('./services/Data');
 
 const DEFAULT_DAYS_PAST = 15;
@@ -69,7 +70,13 @@ async function sync(options = {}) {
   await saveJSON('accounts.json', accounts);
 
   const creditCards = await Promise.all(
-    allAccounts.filter((a) => a.type === 'CREDIT').map(withTransactions)
+    allAccounts.filter((a) => a.type === 'CREDIT').map(async (account) => {
+      const [withTx, bills] = await Promise.all([
+        withTransactions(account),
+        fetchBillsByAccountId(account.id),
+      ]);
+      return { ...withTx, bills };
+    })
   );
   await saveJSON('credit_cards.json', creditCards);
   console.timeEnd('[Sync] Done');
