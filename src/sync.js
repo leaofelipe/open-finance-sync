@@ -7,14 +7,12 @@ const { saveJSON, readJSON } = require('./services/Data');
 const DEFAULT_DAYS_PAST = 15;
 const DEFAULT_DAYS_FUTURE = 0;
 
-function parseEnvInt(value, defaultValue) {
-  const n = Number.parseInt(value, 10);
-  return Number.isNaN(n) ? defaultValue : n;
-}
-
 function getTransactionDateWindow() {
-  const daysPast = parseEnvInt(process.env.TRANSACTION_DAYS_PAST, DEFAULT_DAYS_PAST);
-  const daysFuture = parseEnvInt(process.env.TRANSACTION_DAYS_FUTURE, DEFAULT_DAYS_FUTURE);
+  let daysPast = Number.parseInt(process.env.TRANSACTION_DAYS_PAST, 10);
+  let daysFuture = Number.parseInt(process.env.TRANSACTION_DAYS_FUTURE, 10);
+
+  if (Number.isNaN(daysPast) || daysPast < 0) daysPast = DEFAULT_DAYS_PAST;
+  if (Number.isNaN(daysFuture) || daysFuture < 0) daysFuture = DEFAULT_DAYS_FUTURE;
 
   const fromDate = new Date();
   fromDate.setDate(fromDate.getDate() - daysPast);
@@ -46,10 +44,15 @@ async function isCacheValid() {
   return Date.now() <= maxNextSync;
 }
 
-async function sync() {
+async function sync(options = {}) {
+  const force = options.force === true;
   console.time('[Sync] Done');
 
-  if (await isCacheValid()) {
+  if (force) {
+    console.log('[Sync] --force: ignoring cache, fetching from API.');
+  }
+
+  if (!force && (await isCacheValid())) {
     console.log('[Sync] Cache is valid, skipping requests.');
     console.timeEnd('[Sync] Done');
     return;
@@ -73,7 +76,8 @@ async function sync() {
 }
 
 if (require.main === module) {
-  sync().catch((error) => {
+  const force = process.argv.includes('--force');
+  sync({ force }).catch((error) => {
     console.error('Sync failed:', error);
     process.exit(1);
   });
