@@ -7,9 +7,14 @@ const { saveJSON, readJSON } = require('./services/Data');
 const DEFAULT_DAYS_PAST = 15;
 const DEFAULT_DAYS_FUTURE = 0;
 
+function parseEnvInt(value, defaultValue) {
+  const n = Number.parseInt(value, 10);
+  return Number.isNaN(n) ? defaultValue : n;
+}
+
 function getTransactionDateWindow() {
-  const daysPast = Number.parseInt(process.env.TRANSACTION_DAYS_PAST, 10) || DEFAULT_DAYS_PAST;
-  const daysFuture = Number.parseInt(process.env.TRANSACTION_DAYS_FUTURE, 10) || DEFAULT_DAYS_FUTURE;
+  const daysPast = parseEnvInt(process.env.TRANSACTION_DAYS_PAST, DEFAULT_DAYS_PAST);
+  const daysFuture = parseEnvInt(process.env.TRANSACTION_DAYS_FUTURE, DEFAULT_DAYS_FUTURE);
 
   const fromDate = new Date();
   fromDate.setDate(fromDate.getDate() - daysPast);
